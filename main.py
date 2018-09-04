@@ -55,10 +55,16 @@ def col(inp1,inp2,inp3):
     prinline("|")
     print("")
 
-
-np = {"i1": "1", "i2": "2", "i3": "3", "i4": "4", "i5": "5",
+def set_np():
+    """
+    This function return a dictionary of numbers from 1 to 9
+    :paran: None
+    :return dict of int
+    """
+    return {"i1": "1", "i2": "2", "i3": "3", "i4": "4", "i5": "5",
       "i6": "6", "i7": "7", "i8": "8", "i9": "9"}
 
+np = set_np()
 
 def table(i1=np["i1"], i2=np["i2"], i3=np["i3"], i4=np["i4"],
           i5=np["i5"], i6=np["i6"], i7=np["i7"], i8=np["i8"], i9=np["i9"]):
@@ -83,7 +89,6 @@ def game():
     table()
 
     # dic have the nums of the positions will change with X or O later
-    global np
     p1score = 0
     p2score = 0
     while True:
@@ -245,6 +250,8 @@ game()
 while True:
     ans = input("Do you want to play again : (answer by y or n)\n")
     if ans == "y":
+        #reset the game's grad and restart the game
+        np = set_np()
         game()
     elif ans == "n":
         break
