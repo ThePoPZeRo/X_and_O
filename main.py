@@ -80,49 +80,22 @@ def correct_cell(mv, np):
     
     if np[mv] != "X" and np[mv] != "O":
         check = True
-    
-    # if mv == "9" and np["i9"] != "X" and np["i9"] != "O":
-    #     check = True
-
-    # elif mv == "8" and np["i8"] != "X" and np["i8"] != "O":
-    #     check = True
-
-    # elif mv == "7" and np["i7"] != "X" and np["i7"] != "O":
-    #     check = True
-
-    # elif mv == "6" and np["i6"] != "X" and np["i6"] != "O":
-    #     check = True
-
-    # elif mv == "5" and np["i5"] != "X" and np["i5"] != "O":
-    #     check = True
-
-    # elif mv == "4" and np["i4"] != "X" and np["i4"] != "O":
-    #     check = True
-
-    # elif mv == "3" and np["i3"] != "X" and np["i3"] != "O":
-    #     check = True
-
-    # elif mv == "2" and np["i2"] != "X" and np["i2"] != "O":
-    #     check = True
-
-    # elif mv == "1" and np["i1"] != "X" and np["i1"] != "O":
-    #     check = True
     return check
 
-def is_winner(np):
+def is_winner(np, player_sym):
     '''
     Check if the player win or not
     :param: np -> list
     :return: bool
     '''
-    if np["i1"] == np["i2"] == np["i3"] == "X" \
-                or np["i4"] == np["i5"] == np["i6"] == "X" \
-                or np["i7"] == np["i8"] == np["i9"] == "X" \
-                or np["i3"] == np["i5"] == np["i7"] == "X" \
-                or np["i1"] == np["i5"] == np["i9"] == "X" \
-                or np["i1"] == np["i4"] == np["i7"] == "X" \
-                or np["i2"] == np["i5"] == np["i8"] == "X" \
-                or np["i3"] == np["i6"] == np["i9"] == "X":
+    if np["i1"] == np["i2"] == np["i3"] == player_sym \
+                or np["i4"] == np["i5"] == np["i6"] == player_sym \
+                or np["i7"] == np["i8"] == np["i9"] == player_sym \
+                or np["i3"] == np["i5"] == np["i7"] == player_sym \
+                or np["i1"] == np["i5"] == np["i9"] == player_sym \
+                or np["i1"] == np["i4"] == np["i7"] == player_sym \
+                or np["i2"] == np["i5"] == np["i8"] == player_sym \
+                or np["i3"] == np["i6"] == np["i9"] == player_sym:
         return True
     return False
 
@@ -138,6 +111,13 @@ def is_draw(np):
         return True
 
     return False
+
+def draw_procedural(player1, player2):
+    print("Draw")
+    print("{} score {} \n{} score {}".format(
+        player1['name'], player1['score'],
+        player2['name'], player2['score'])
+        )
 
 def move_calc(mv, np, player_sym):
     '''
@@ -166,60 +146,57 @@ def game(player1, player2):
     np = init_xo_grid()
     table(np)
 
-    # dic have the nums of the positions will change with X or O later
-    p1score = 0
-    p2score = 0
     while True:
-        mv1 = input("{} turn \nenter num of position : \n".format(player1))
+        mv1 = input("{} turn \nenter num of position : \n".format(player1['name']))
         move_calc(mv1, np, "X")
 
         # check if player one is the winner
-        if is_winner(np):
-            p1score += 1
-            print("{} score : {}\n".format(player1, p1score))
+        if is_winner(np, "X"):
+            player1['score'] += 1
+            print("{} score : {}\n".format(player1['name'], player1['score']))
             break
 
         # check If Draw
         elif is_draw(np):
-            print("Draw")
-            print("{} score {} \n{} score {}".format(player1, p1score, player2, p2score))
+            draw_procedural(player1, player2)
             break
 
         # player two turn
-        mv2 = input("{} turn \nenter num of position : \n".format(player2))
+        mv2 = input("{} turn \nenter num of position : \n".format(player2['name']))
         move_calc(mv2, np, "O")
 
         # check if player two is the winner
-        if is_winner(np):
-            p2score += 1
-            print("{} score : {}\n".format(player2, p2score))
+        if is_winner(np, "O"):
+            player2['score'] += 1
+            print("{} score : {}\n".format(player2['name'], player2['score']))
             break
 
         elif is_draw(np):
-            print("Draw")
-            print("{} score {} \n{} score {}".format(player1, p1score, player2, p2score))
+            draw_procedural(player1, player2)
             break
 
 def main():
     # take players name and make sure they give us their names
-
+    def init_player():
+        return {"name": '', "score": 0}
+    
     # Players Names Section
-    player1 = ""
-    player2 = ""
+    player1 = init_player()
+    player2 = init_player()
 
-    while not player1:
+    while not player1['name']:
         print("Player 1".center(24))
-        player1 = input("please enter you name : \n")
-        if not player1:
+        player1['name'] = input("please enter you name : \n")
+        if not player1['name']:
             print("can't play without your name >_>\n")
             continue
-        while not player2:
+        while not player2['name']:
             print("Player 2".center(24))
-            player2 = input("please enter you name : \n")
-            if not player2:
+            player2['name'] = input("please enter you name : \n")
+            if not player2['name']:
                 print("can't play without your name >_>\n")
 
-    print("\n{} will play with 'X' \n{} wil play with 'O'".format(player1,player2))
+    print("\n{} will play with 'X' \n{} wil play with 'O'".format(player1['name'] ,player2['name']))
 
     # just break to make sure the players have known their mark
     input("\n\nPress enter to start the game >_< \n")
