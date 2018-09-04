@@ -77,10 +77,10 @@ def correct_cell(mv, np):
     # for every turn check for the num of the the position and if there O or X before
     # then type player mark in it mv1 means players 1 turns
     # I will change it later to change who start the game according to the winner
-    
     if np[mv] != "X" and np[mv] != "O":
         check = True
     return check
+
 
 def is_winner(np, player_sym):
     '''
@@ -133,9 +133,14 @@ def move_calc(mv, np, player_sym):
             table(np)
             break
         else:
-            print("please enter num between 1 and 9 if it dosen't entered before")
+            print("Please enter num between 1 and 9 if it dosen't entered before")
             table(np)
-        mv = input("enter num of position : \n")
+        mv = input("Enter num of position : \n")
+
+def print_players_score(player1, player2):
+    print("{} score : {}\n".format(player1['name'], player1['score']))
+    print("{} score : {}\n".format(player2['name'], player2['score']))
+
 
 # Game Section the worst XO
 def game(player1, player2):
@@ -153,7 +158,7 @@ def game(player1, player2):
         # check if player one is the winner
         if is_winner(np, "X"):
             player1['score'] += 1
-            print("{} score : {}\n".format(player1['name'], player1['score']))
+            print_players_score()
             break
 
         # check If Draw
@@ -168,7 +173,7 @@ def game(player1, player2):
         # check if player two is the winner
         if is_winner(np, "O"):
             player2['score'] += 1
-            print("{} score : {}\n".format(player2['name'], player2['score']))
+            print_players_score()
             break
 
         elif is_draw(np):
