@@ -158,7 +158,7 @@ def game(player1, player2):
         # check if player one is the winner
         if is_winner(np, "X"):
             player1['score'] += 1
-            print_players_score()
+            print_players_score(player1, player2)
             break
 
         # check If Draw
@@ -173,7 +173,7 @@ def game(player1, player2):
         # check if player two is the winner
         if is_winner(np, "O"):
             player2['score'] += 1
-            print_players_score()
+            print_players_score(player1, player2)
             break
 
         elif is_draw(np):
